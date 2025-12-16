@@ -1,8 +1,13 @@
 from stats import get_number_words, get_chars_dict, sorted_chars
+import sys
 
 def main():
-    book_path = "books/frankenstein.txt"
-    text = get_book_text(book_path)
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    
+    text = get_book_text(sys.argv[1])
+
     num_words = get_number_words(text)
     num_char = get_chars_dict(text)
     sorted_list = sorted_chars(num_char)
@@ -11,9 +16,9 @@ def main():
     # print("Character count:", num_char)
     print(f'''
 ============ BOOKBOT ============
-Analyzing book found at books/frankenstein.txt...
+Analyzing book found at {sys.argv[1]}...
 ----------- Word Count ----------
-Found 75767 total words
+Found {num_words} total words
 --------- Character Count -------
           ''')
     for item in sorted_list:
@@ -21,8 +26,8 @@ Found 75767 total words
         if ch.isalpha():
             print(f"{ch}: {item['num']}")
 
-def get_book_text(path):
-    with open(path) as f:
+def get_book_text(text):
+    with open(text) as f:
         return f.read()
 
 main()
